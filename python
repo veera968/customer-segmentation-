@@ -1,0 +1,68 @@
+import streamlit as st
+import pandas as pd
+import seaborn as sns # type: ignore
+import matplotlib.pyplot as plt # type: ignore
+from sklearn.cluster import KMeans # type: ignore
+from sklearn.preprocessing import StandardScaler # type: ignore
+
+# Page config
+st.set_page_config(page_title="Customer Segmentation Dashboard", layout="centered")
+st.title("🧠 Customer Segmentation using K-Means")
+
+# Upload dataset
+uploaded_file = st.file_uploader("Upload Customer Dataset (CSV)", type="csv")
+
+if uploaded_file:
+    df = pd.read_csv(uploaded_file)
+    st.subheader("📊 Raw Data Preview")
+    st.dataframe(df.head())
+
+    # Feature selection
+    features = ['Annual Income (k$)', 'Spending Score (1-100)']
+    if all(f in df.columns for f in features):
+        X = df[features]
+
+        # Standardize features
+        scaler = StandardScaler()
+        X_scaled = scaler.fit_transform(X)
+
+        # Select number of clusters
+        k = st.slider("Select number of clusters", 2, 10, 5)
+
+        # Apply KMeans
+        kmeans = KMeans(n_clusters=k, random_state=42)
+        df['Cluster'] = kmeans.fit_predict(X_scaled)
+
+        # Display clustered data
+        st.subheader("🔍 Clustered Data")
+        st.dataframe(df[['Annual Income (k$)', 'Spending Score (1-100)', 'Cluster']])
+
+        # Plot clusters
+        st.subheader("📈 Cluster Visualization")
+        fig, ax = plt.subplots()
+        sns.scatterplot(data=df, x='Annual Income (k$)', y='Spending Score (1-100)', hue='Cluster', palette='Set1', ax=ax)
+        st.pyplot(fig)
+
+        # Business insight suggestions
+        st.subheader("💡 Cluster Insights")
+        for i in range(k):
+            segment = df[df['Cluster'] == i]
+            income_mean = segment['Annual Income (k$)'].mean()
+            spend_mean = segment['Spending Score (1-100)'].mean()
+
+            if income_mean > 70 and spend_mean > 60:
+                label = "VIP Customers"
+            elif income_mean < 40 and spend_mean < 40:
+                label = "Budget-conscious"
+            elif income_mean > 70 and spend_mean < 40:
+                label = "Cautious Spenders"
+            elif income_mean < 40 and spend_mean > 60:
+                label = "Impulsive Buyers"
+                st.error("Required features 'Annual Income (k$)' and 'Spending Score (1-100)' not found in the uploaded dataset.")
+                label = "Potential Growth"
+
+            st.markdown(f"**Cluster {i}: {label}**")
+            st.write(f"Avg. Income: ${income_mean:.2f}k, Avg. Spending Score: {spend_mean:.2f}")
+
+    else:
+        st.error("Required features 'Annual Income (k$)' and 'Spending Score (1-100)' not found in the uploaded dataset.")
