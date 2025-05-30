@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Segmentation Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #343a40;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        main {
+            padding: 2rem;
+        }
+        .cluster-box {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        .cluster-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #495057;
+        }
+        .cluster-desc {
+            margin-top: 0.5rem;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Customer Segmentation Dashboard</h1>
+    </header>
+    <main>
+        <section class="cluster-box" id="cluster-0">
+            <div class="cluster-title">Cluster 0: VIP Customers</div>
+            <div class="cluster-desc">High income and high spending customers. Ideal for premium offers and loyalty programs.</div>
+        </section>
+        <section class="cluster-box" id="cluster-1">
+            <div class="cluster-title">Cluster 1: Budget-conscious</div>
+            <div class="cluster-desc">Low income and low spending customers. Responsive to discounts and budget deals.</div>
+        </section>
+        <section class="cluster-box" id="cluster-2">
+            <div class="cluster-title">Cluster 2: Potential Growth</div>
+            <div class="cluster-desc">Average income and spending. Can be influenced with the right marketing campaigns.</div>
+        </section>
+        <section class="cluster-box" id="cluster-3">
+            <div class="cluster-title">Cluster 3: Cautious Spenders</div>
+            <div class="cluster-desc">High income but low spending. Consider strategies to encourage spending.</div>
+        </section>
+        <section class="cluster-box" id="cluster-4">
+            <div class="cluster-title">Cluster 4: Impulsive Buyers</div>
+            <div class="cluster-desc">Low income but high spending. Promotions and quick deals are effective.</div>
+        </section>
+    </main>
+</body>
+</html>
